@@ -1,10 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Input - Tugas Deploy | NIM 20220140080</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 25px;
+            color: white;
+            text-align: center;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .nim-badge {
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group label span {
+            color: #e74c3c;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .radio-option label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        /* Error Message */
+        .error {
+            color: #e74c3c;
+            background: #fdecea;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+            border-left: 4px solid #e74c3c;
+        }
+
+        /* Buttons */
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-back {
+            background: #f0f0f0;
+            color: #666;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-back:hover {
+            background: #e0e0e0;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 480px) {
+            .form-content {
+                padding: 20px;
+            }
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <div class="header">
+        <h2>📝 Form Input Mahasiswa</h2>
+        <p>Silakan isi data mahasiswa di bawah ini</p>
+        <div class="nim-badge">NIM: 20220140080</div>
+    </div>
 
+    <div class="form-content">
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+
+        <form method="post" action="/submitForm">
+            <div class="form-group">
+                <label>Nama <span>*</span></label>
+                <input type="text" name="nama" placeholder="Masukkan nama lengkap" required autofocus/>
+            </div>
+
+            <div class="form-group">
+                <label>NIM <span>*</span></label>
+                <input type="text" name="nim" placeholder="Masukkan NIM (minimal 10 digit)" required/>
+            </div>
+
+            <div class="form-group">
+                <label>Jenis Kelamin <span>*</span></label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="jenisKelamin" value="Laki-laki" checked/>
+                        <span>👨 Laki-laki</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="jenisKelamin" value="Perempuan"/>
+                        <span>👩 Perempuan</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">✅ Submit</button>
+            <a href="/home" class="btn-back">← Kembali ke Home</a>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>Data bersifat temporary (tidak disimpan di database) | NIM 20220140080</p>
+    </div>
+</div>
 </body>
 </html>
