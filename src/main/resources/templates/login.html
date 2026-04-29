@@ -25,7 +25,7 @@
         .container {
             background: white;
             width: 100%;
-            max-width: 420px;
+            max-width: 450px;
             padding: 40px 35px;
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -59,7 +59,52 @@
         .subtitle {
             color: #666;
             font-size: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Profile Photo */
+        .photo-container {
+            margin-bottom: 20px;
+        }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Kata Kata Hari Ini */
+        .quote-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .quote-label {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .quote-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .quote-text-bahasa {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
         }
 
         .nim-badge {
@@ -156,13 +201,19 @@
             margin: 5px 0;
         }
 
-        /* Responsive */
         @media (max-width: 480px) {
             .container {
                 padding: 30px 25px;
             }
             h2 {
                 font-size: 24px;
+            }
+            .quote-text {
+                font-size: 16px;
+            }
+            .profile-photo {
+                width: 90px;
+                height: 90px;
             }
         }
     </style>
@@ -172,6 +223,20 @@
     <div class="logo">🔐</div>
     <h2>Welcome Back</h2>
     <p class="subtitle">Silakan login untuk melanjutkan</p>
+
+    <!-- FOTO LOKAL -->
+    <div class="photo-container">
+        <img src="/images/foto-saya.jpg"
+             alt="Profile Photo"
+             class="profile-photo"
+             th:src="@{/images/photo.jpeg}">
+    </div>
+
+    <!-- Kata Kata Hari Ini -->
+    <div class="quote-container">
+        <div class="quote-label">📝 KATA HARI INI</div>
+        <div class="quote-text">"Gerang ra solat, tuo angel sekarat"</div>
+    </div>
 
     <div class="nim-badge">NIM: 20220140080</div>
 
